@@ -109,6 +109,7 @@ venv.bak/
 Pipfile
 Pipfile.lock
 celerybeat.pid
+sample_tasks.py
 sqs/aws_data
 sqs/config.py
 sqs/credentials.csv
