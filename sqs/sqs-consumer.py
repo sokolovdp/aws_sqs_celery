@@ -14,7 +14,7 @@ sqs = boto3.client(
 if __name__ == '__main__':
     print('STARTING WORKER listening on {}'.format(QUEUE_URL))
     # while True:
-    for _ in range(10):
+    for _ in range(100):
         response = sqs.receive_message(
             QueueUrl=QUEUE_URL,
             AttributeNames=['All'],
@@ -43,7 +43,8 @@ if __name__ == '__main__':
                         print('Received and deleted message: {}'.format(message))
                 except Exception as e:
                     print('Exception in worker > ', str(e))
-                    sqs.delete_message(QueueUrl=QUEUE_URL, ReceiptHandle=message.get('ReceiptHandle'))
+                    # to test DLQ do not remove message
+                    # sqs.delete_message(QueueUrl=QUEUE_URL, ReceiptHandle=message.get('ReceiptHandle'))
 
         time.sleep(1)
 

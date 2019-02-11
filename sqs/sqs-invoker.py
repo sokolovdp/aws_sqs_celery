@@ -12,22 +12,27 @@ sqs = boto3.client(
 
 
 def send_report_results():
-    for i in range(1, 7):
-        body = json.dumps({'jobId': 'test01', 'data': {'topping': [
-            {'id': '5001', 'type': 'Chery'},
-            {'id': '5002', 'type': 'Glazed'},
-            {'id': '5005', 'type': 'Sugar'},
-            {'id': '5007', 'type': 'Powdered Sugar'},
-            {'id': '5006', 'type': 'Chocolate with Sprinkles'},
-            {'id': '5003', 'type': 'Chocolate'},
-            {'id': '5004', 'type': 'Maple'}]
-        }})
-        response = sqs.send_message(
-            QueueUrl=QUEUE_URL,
-            MessageBody=body
-        )
-        print(response)
-        print('SUCCESS')
+    # for i in range(1, 7):
+    #     body = json.dumps({'jobId': 'test01', 'data': {'topping': [
+    #         {'id': '5001', 'type': 'Chery'},
+    #         {'id': '5002', 'type': 'Glazed'},
+    #         {'id': '5005', 'type': 'Sugar'},
+    #         {'id': '5007', 'type': 'Powdered Sugar'},
+    #         {'id': '5006', 'type': 'Chocolate with Sprinkles'},
+    #         {'id': '5003', 'type': 'Chocolate'},
+    #         {'id': '5004', 'type': 'Maple'}]
+    #     }})
+    #     response = sqs.send_message(
+    #         QueueUrl=QUEUE_URL,
+    #         MessageBody=body
+    #     )
+    #     print(response)
+    #     print('SUCCESS')
+
+    response = sqs.send_message(   # test dead message queue logic
+        QueueUrl=QUEUE_URL,
+        MessageBody="this will cause the error!"
+    )
 
 
 send_report_results()
