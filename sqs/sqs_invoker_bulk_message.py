@@ -55,7 +55,7 @@ class SQSClientExtended(object):
 
     def is_large_payload_support_enabled(self):
         # TODO
-        True
+        return True
 
     def set_always_through_s3(self, always_through_s3):
         """
@@ -108,7 +108,7 @@ class SQSClientExtended(object):
         msg_attributes_size = self.__get_msg_attributes_size(message_attributes)
         msg_body_size = self.__get_msg_attributes_size(message)
         total_msg_size = msg_attributes_size + msg_body_size
-        return (total_msg_size > self.message_size_threshold)
+        return total_msg_size > self.message_size_threshold
 
     def receive_message(self, queue_url, max_number_Of_Messages=1, wait_time_seconds=10):
         """
@@ -155,10 +155,14 @@ class SQSClientExtended(object):
 
     def __delete_message_payload_from_s3(self, receipt_handle):
         try:
-            s3_msg_bucket_name = self.__get_bucket_marker_from_receipt_handle(receipt_handle,
-                                                                              SQSExtendedClientConstants.S3_BUCKET_NAME_MARKER.value)
-            s3_msg_key = self.__get_bucket_marker_from_receipt_handle(receipt_handle,
-                                                                      SQSExtendedClientConstants.S3_KEY_MARKER.value)
+            s3_msg_bucket_name = self.__get_bucket_marker_from_receipt_handle(
+                receipt_handle,
+                SQSExtendedClientConstants.S3_BUCKET_NAME_MARKER.value
+            )
+            s3_msg_key = self.__get_bucket_marker_from_receipt_handle(
+                receipt_handle,
+                SQSExtendedClientConstants.S3_KEY_MARKER.value
+            )
             session = Session(aws_access_key_id=self.aws_access_key_id,
                               aws_secret_access_key=self.aws_secret_access_key, region_name=self.aws_region_name)
             s3 = session.resource('s3')
@@ -298,7 +302,6 @@ if __name__ == '__main__':
 
     # message = "_100mb_large_string"
 
-    message = None
     with open("C:\\DjangoCourse\\Courses\\celery\\introduction-promo.mp4", "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read())
         message = encoded_string.decode("utf-8")
