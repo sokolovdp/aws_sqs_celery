@@ -33,6 +33,7 @@ def send_report_results():
         QueueUrl=QUEUE_URL,
         MessageBody="this will cause the error!"
     )
+    print(response)
 
 
 send_report_results()
